@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  rest-api:
+    build: .
+    container_name: rest-api
+    networks:
+      - code-network
+    restart: always
+    working_dir: /app
+    ports:
+      - 8000:8000 #to outside host:container
+
+  angular-app:
+    image: nginx
+    container_name: angular-app
+    networks:
+      - code-network
+    restart: always
+    ports:
+      - 80:80
+#     volumes:
+#       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+# #      - ./angular-charts/dist/angular-charts:/usr/share/nginx/html
+networks:
+  code-network:
+    driver: bridge
