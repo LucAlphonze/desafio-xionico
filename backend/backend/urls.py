@@ -20,7 +20,7 @@ from rest_framework.routers import DefaultRouter
 from backOffice.views import BackOfficeViewSet
 
 router = DefaultRouter()
-router.register(r'users', BackOfficeViewSet)
+router.register(r'backOffice', BackOfficeViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
