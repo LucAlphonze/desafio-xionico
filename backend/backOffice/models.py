@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.gis.geos import Point
 
 class User(models.Model):
     userName = models.CharField(max_length=20)
@@ -23,7 +22,9 @@ class Ventas_Cabecera(models.Model):
     fecha = models.DateField(auto_now=True)
     cliente = models.CharField(max_length=20)
     importe = models.IntegerField()
-    gps = Point()
+    lat = models.DecimalField(max_digits=9, decimal_places=6)
+    long = models.DecimalField(max_digits=9, decimal_places=6)
+
 
 class Ventas_Detalle(models.Model):
     producto = models.ForeignKey(Producto, null=True, on_delete=models.SET_NULL)
