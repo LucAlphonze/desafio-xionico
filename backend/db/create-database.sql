@@ -12,8 +12,15 @@ CREATE TABLE users (
 );
 GO
 
+BEGIN
+   IF NOT EXISTS (SELECT * FROM [users] 
+                   WHERE Name = 'Admin' OR  NAME ='User'
+                   AND Password = 'Admin123$' OR PASSWORD ='User123$') 
+   BEGIN
 INSERT INTO [users] (Name, Password)
 VALUES 
 ('Admin', 'Admin123$'),
 ('User', 'User123$'); 
-GO
+   END
+END
+

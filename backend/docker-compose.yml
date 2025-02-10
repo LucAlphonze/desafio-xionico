@@ -1,14 +1,18 @@
 services:
-
   db:
-    build: ./Db
+    build: ./db
+    volumes:
+      - ./db/sqlvolume:/var/opt/mssql/data
+    networks:
+      - code-network
     ports:
-        - 1433:1433
-
+      - 1433:1433
 
   rest-api:
     build: .
     container_name: rest-api
+    depends_on:
+      - db
     networks:
       - code-network
     restart: always
@@ -24,9 +28,9 @@ services:
     restart: always
     ports:
       - 80:80
-#     volumes:
+#    volumes:
 #       - ./nginx.conf:/etc/nginx/conf.d/default.conf
-# #      - ./angular-charts/dist/angular-charts:/usr/share/nginx/html
+#       - ./angular-charts/dist/angular-charts:/usr/share/nginx/html
 networks:
   code-network:
     driver: bridge

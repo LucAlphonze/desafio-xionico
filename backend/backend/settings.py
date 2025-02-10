@@ -78,12 +78,15 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "mssql",
-        "NAME": "master",
+        "NAME": "backoffice-db",
         "USER": "sa",
         "PASSWORD": "password123!",
-        "HOST": "localhost",
-        "PORT": "",
-        "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server"},
+        "HOST": "db",
+        "PORT": "1433",
+        "OPTIONS": {  
+            'driver': 'ODBC Driver 17 for SQL Server',
+
+        },
     },
 }
 # Password validation

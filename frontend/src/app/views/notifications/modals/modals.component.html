@@ -1,0 +1,97 @@
+<c-row>
+  <ng-container *ngTemplateOutlet="scrollableLongContent" />
+</c-row>
+
+<ng-template #scrollableLongContent>
+  <button [cModalToggle]="scrollableLongContentModal.id" cButton>
+    Scrollable long content
+  </button>
+  <c-modal
+    #scrollableLongContentModal
+    id="scrollableLongContentModal"
+    scrollable
+  >
+    <c-modal-header>
+      <h5 cModalTitle>Modal title</h5>
+      <button
+        [cModalToggle]="scrollableLongContentModal.id"
+        cButtonClose
+      ></button>
+    </c-modal-header>
+    <c-modal-body>
+      <ng-container *ngTemplateOutlet="longContent"></ng-container>
+    </c-modal-body>
+    <c-modal-footer>
+      <button
+        [cModalToggle]="scrollableLongContentModal.id"
+        cButton
+        color="secondary"
+      >
+        Close
+      </button>
+      <button cButton color="primary">Save changes</button>
+    </c-modal-footer>
+  </c-modal>
+</ng-template>
+
+<ng-template #longContent>
+  <p>
+    Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus
+    ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur
+    ac, vestibulum at eros.
+  </p>
+  <form cForm>
+    <div class="mb-3">
+      <label cLabel for="nameFormControl">Nombre y Apellido</label>
+      <input
+        cFormControl
+        id="nameFormControl"
+        placeholder="Juan Perez"
+        type="text"
+      />
+    </div>
+    <div class="mb-3">
+      <label cLabel for="emailFormControl">Email</label>
+      <input
+        cFormControl
+        id="emailFormControl"
+        placeholder="name@example.com"
+        type="email"
+      />
+    </div>
+    <div class="mb-3">
+      <label cLabel for="empresaFormControl">Empresa</label>
+      <input
+        cFormControl
+        id="empresaFormControl"
+        placeholder="empresa"
+        type="text"
+      />
+    </div>
+    <div class="mb-3">
+      <label cLabel for="telefonoFormControl">Telefono</label>
+      <input
+        cFormControl
+        id="telefonoFormControl"
+        placeholder="name@example.com"
+        type="tel"
+      />
+    </div>
+    <div class="mb-3">
+      <label cLabel for="direccionFormControl">Direccion</label>
+      <input
+        cFormControl
+        id="direccionFormControl"
+        placeholder="calle falsa 123"
+        type="text"
+        [value]="markerResults"
+      />
+      <div class="map-wrap">
+        <div class="map" #map></div>
+        <div id="results">
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
