@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   TextColorDirective,
   CardComponent,
@@ -6,6 +6,12 @@ import {
   CardBodyComponent,
 } from '@coreui/angular';
 import { ModalsComponent } from '../notifications/modals/modals.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { Subscription } from 'rxjs';
+import { DataService } from '../../services/data.service';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   templateUrl: 'typography.component.html',
@@ -15,11 +21,24 @@ import { ModalsComponent } from '../notifications/modals/modals.component';
     CardComponent,
     CardHeaderComponent,
     CardBodyComponent,
-    ModalsComponent,
+    MatIconModule,
+    HttpClientModule,
   ],
+  providers: [DataService],
 })
-export class TypographyComponent {
-  constructor() {}
+export class TypographyComponent implements OnInit {
+  subscription: Subscription;
+  apiVendedores: string = environment.URL_VENDEDORES;
+  constructor(public dialog: MatDialog, private dataService: DataService) {}
+  ngOnInit(): void {
+    this.subscription = this.dataService.listVendedoresInfo.subscribe(
+      (message: any) => {
+        this.listaVendedores2 = message;
+      }
+    );
+    this.getVendedores();
+  }
+  listaVendedores2 = [];
   listVendedores = [
     {
       id: 1,
@@ -71,10 +90,38 @@ export class TypographyComponent {
     },
   ];
 
-  removeFromList(id: number) {
-    var nuevaLista = this.listVendedores.filter((item: any) => {
+  deleteVendedor(id: number) {
+    // to do: añadir dialogo de confirmacion antes de borrar
+    var nuevaLista = this.listaVendedores2.filter((item: any) => {
       return item.id !== id;
     });
-    this.listVendedores = nuevaLista;
+    this.dataService.DeleteVendedor(id).subscribe((res) => {
+      console.log('delete vendedor:', res);
+    });
+    this.listaVendedores2 = nuevaLista;
+  }
+  openMapDialog(elemento?: any): void {
+    if (elemento) {
+      const dialogRef = this.dialog.open(ModalsComponent, {
+        data: elemento,
+      });
+    } else {
+      const dialogRef = this.dialog.open(ModalsComponent, {
+        data: {
+          name: '',
+          email: '',
+          empresa: '',
+          direccion: '',
+          telefono: '',
+        },
+      });
+    }
+  }
+  getVendedores() {
+    this.dataService.httpGet(this.apiVendedores).subscribe((res: any) => {
+      this.dataService.stream_Vendedor_Info(res);
+      this.listaVendedores2 = res;
+      console.log('Lista de vendedores http: ', res);
+    });
   }
 }

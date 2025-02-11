@@ -9,3 +9,4 @@ Django== 4.2.19
 django-mssql-backend==2.8.1
 djangorestframework==3.15.2
 mssql==1.0.1
+django-cors-headers==4.7.0

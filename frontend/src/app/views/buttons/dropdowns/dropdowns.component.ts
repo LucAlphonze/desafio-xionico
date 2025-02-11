@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { DocsExampleComponent } from '@docs-components/public-api';
 import {
   ButtonDirective,
   ButtonGroupComponent,
@@ -27,7 +26,7 @@ import {
   NavLinkDirective,
   RowComponent,
   TextColorDirective,
-  ThemeDirective
+  ThemeDirective,
 } from '@coreui/angular';
 
 @Component({
@@ -41,34 +40,17 @@ import {
     CardComponent,
     CardHeaderComponent,
     CardBodyComponent,
-    DocsExampleComponent,
-    ThemeDirective,
-    DropdownComponent,
-    ButtonDirective,
-    DropdownToggleDirective,
-    DropdownMenuDirective,
-    DropdownHeaderDirective,
-    DropdownItemDirective,
-    RouterLink,
-    DropdownDividerDirective,
-    NavbarComponent,
-    ContainerComponent,
-    NavbarBrandDirective,
-    NavbarTogglerDirective,
-    CollapseDirective,
-    NavbarNavComponent,
-    NavItemComponent,
-    NavLinkDirective,
-    ReactiveFormsModule,
-    FormDirective,
-    FormControlDirective,
-    ButtonGroupComponent
-  ]
+  ],
 })
 export class DropdownsComponent {
+  public colors = [
+    'primary',
+    'secondary',
+    'success',
+    'info',
+    'warning',
+    'danger',
+  ];
 
-  public colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger'];
-
-  constructor() { }
-
+  constructor() {}
 }

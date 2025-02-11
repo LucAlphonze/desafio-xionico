@@ -11,6 +11,9 @@ class Empresa(models.Model):
 class Vendedor(models.Model):
     name = models.CharField(max_length=40)
     empresa = models.ForeignKey(Empresa, null=True, on_delete=models.SET_NULL)
+    email = models.CharField(max_length=20)
+    direccion = models.CharField(max_length=255)
+    telefono = models.CharField(max_length=20)
 
 class Producto(models.Model):
     name = models.CharField(max_length=200)

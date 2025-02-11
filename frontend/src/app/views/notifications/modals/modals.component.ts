@@ -2,27 +2,36 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Inject,
   OnInit,
-  TemplateRef,
   ViewChild,
-  ViewRef,
 } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
-import {
-  ButtonCloseDirective,
-  ButtonDirective,
-  ModalBodyComponent,
-  ModalComponent,
-  ModalFooterComponent,
-  ModalHeaderComponent,
-  ModalTitleDirective,
-  ModalToggleDirective,
-  RowComponent,
-  ThemeDirective,
-} from '@coreui/angular';
+
 import { Map, MapStyle, Marker, config, geocoding } from '@maptiler/sdk';
 import '@maptiler/sdk/dist/maptiler-sdk.css';
 import { environment } from '../../../environments/environment';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { NgTemplateOutlet } from '@angular/common';
+import {
+  CardBodyComponent,
+  CardComponent,
+  CardHeaderComponent,
+  ColComponent,
+  RowComponent,
+} from '@coreui/angular';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { DataService } from '../../../services/data.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-modals',
@@ -30,25 +39,37 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./modals.component.scss'],
   standalone: true,
   imports: [
+    MatDialogModule,
+    CardComponent,
+    CardBodyComponent,
+    ColComponent,
     RowComponent,
-    ModalComponent,
-    ModalHeaderComponent,
-    ModalTitleDirective,
-    ThemeDirective,
-    ButtonCloseDirective,
-    ModalBodyComponent,
-    ModalFooterComponent,
-    ButtonDirective,
-    NgTemplateOutlet,
-    ModalToggleDirective,
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
+  providers: [DataService],
 })
 export class ModalsComponent implements OnInit, AfterViewInit {
-  map: Map;
-  marker: Marker;
-  markerResults: string;
-  childViewRef: ViewRef;
+  userForm: FormGroup;
+  constructor(
+    public dialogRef: MatDialogRef<ModalsComponent>,
+    private builder: FormBuilder,
+    private dataService: DataService,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.userForm = this.builder.group({
+      name: this.builder.control(data.name, Validators.required),
+      email: this.builder.control(data.email, Validators.required),
+      empresa: this.builder.control(data.empresa, Validators.required),
+      direccion: this.builder.control(data.direccion, Validators.required),
+      telefono: this.builder.control(data.telefono, Validators.required),
+    });
+  }
 
+  map!: Map;
+  marker!: Marker;
+  markerResults!: string;
+  apiVendedor: string = environment.URL_VENDEDORES;
   @ViewChild('map') mapContainer!: ElementRef<HTMLElement>;
 
   ngOnInit(): void {
@@ -56,6 +77,8 @@ export class ModalsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    console.log('data:', this.data);
+
     const initialState = { lng: -64.1888, lat: -31.4201, zoom: 14 };
 
     this.map = new Map({
@@ -71,21 +94,38 @@ export class ModalsComponent implements OnInit, AfterViewInit {
       const { lng, lat } = e.target._lngLat;
       const results = await geocoding.reverse([lng, lat]);
       this.markerResults = `${results.features[0].text} ${results.features[0].address}`;
-      console.log('resultados', results.features[0]);
+      this.userForm.value.direccion = this.markerResults;
+      this.data.direccion = this.markerResults;
       // const map: any = e.target;
       // map.getSource('search-results').setData(results);
     });
-
-    // this.map.on('click', async (e) => {
-
-    //   // const bounds: any = results.features.reduce(function (bounds, feature) {
-    //   //   return bounds.extend(feature.bbox as unknown as LngLatLike);
-    //   // }, new LngLatBounds(results.features[0].bbox as unknown as LngLatLike));
-    //   // map.fitBounds(bounds);
-    // });
   }
 
   ngOnDestroy() {}
 
-  handleCreateMap() {}
+  editarInfo(id?: number): void {
+    if (id) {
+      this.data.name = this.userForm.value.name;
+      this.data.empresa = this.userForm.value.empresa;
+      this.data.email = this.userForm.value.email;
+      this.data.telefono = this.userForm.value.telefono;
+      this.data.direccion = this.userForm.value.direccion;
+      this.dataService
+        .UpdateVendedor(id, this.userForm.value)
+        .subscribe((res) => {
+          console.log('vendedor actualizado: ', this.userForm.value);
+          console.log('http res: ', res);
+        });
+
+      this.dialogRef.close();
+    } else {
+      this.dataService
+        .httpPost(this.apiVendedor, this.userForm.value)
+        .subscribe((res) => {
+          console.log('vendedor creado: ', this.userForm.value);
+          console.log('http res: ', res);
+        });
+      this.dialogRef.close();
+    }
+  }
 }

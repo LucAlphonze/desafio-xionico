@@ -5,6 +5,9 @@
       Documentation and examples for Bootstrap typography, including global
       settings, headings, body text, lists, and more.
     </p>
+    <button mat-icon-button (click)="openMapDialog()">
+      <mat-icon class="plus">plus</mat-icon>
+    </button>
     <table class="table">
       <thead>
         <tr>
@@ -17,7 +20,7 @@
         </tr>
       </thead>
       <tbody>
-        @for(vendedor of listVendedores; track vendedor.id){
+        @for(vendedor of listaVendedores2; track vendedor.id){
         <tr>
           <td>
             <h3>
@@ -40,12 +43,14 @@
             <button
               cButton
               color="danger"
-              (click)="removeFromList(vendedor.id)"
+              (click)="deleteVendedor(vendedor.id)"
             >
               Borrar
             </button>
-            <app-modals></app-modals>
           </td>
+          <button mat-icon-button (click)="openMapDialog(vendedor)">
+            <mat-icon class="file_map">map</mat-icon>
+          </button>
         </tr>
 
         } @empty {

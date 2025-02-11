@@ -41,6 +41,7 @@
     "@maptiler/client": "^2.2.0",
     "@maptiler/geocoding-control": "^2.1.6",
     "@maptiler/sdk": "^3.0.1",
+    "@npmcli/package-json": "^6.1.1",
     "@types/geojson": "^7946.0.16",
     "@types/maplibre-gl": "^1.14.0",
     "chart.js": "^4.4.3",

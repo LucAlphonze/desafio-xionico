@@ -1,23 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { NgClass } from '@angular/common';
-import { DocsExampleComponent } from '@docs-components/public-api';
 import {
-  BreadcrumbComponent,
-  BreadcrumbItemComponent,
-  BreadcrumbRouterComponent,
   CardBodyComponent,
   CardComponent,
   CardHeaderComponent,
   ColComponent,
   RowComponent,
-  TextColorDirective
+  TextColorDirective,
 } from '@coreui/angular';
 
 @Component({
   templateUrl: './breadcrumbs.component.html',
   styleUrls: ['./breadcrumbs.component.scss'],
   standalone: true,
-  imports: [RowComponent, ColComponent, TextColorDirective, CardComponent, CardHeaderComponent, CardBodyComponent, DocsExampleComponent, BreadcrumbComponent, BreadcrumbItemComponent, NgClass, BreadcrumbRouterComponent]
+  imports: [
+    RowComponent,
+    ColComponent,
+    TextColorDirective,
+    CardComponent,
+    CardHeaderComponent,
+    CardBodyComponent,
+  ],
 })
 export class BreadcrumbsComponent implements OnInit {
   public items = <any>[];
@@ -29,7 +31,7 @@ export class BreadcrumbsComponent implements OnInit {
       { label: 'Home', url: '/', attributes: { title: 'Home' } },
       { label: 'Library', url: '/' },
       { label: 'Data', url: '/dashboard/' },
-      { label: 'CoreUI', url: '/' }
+      { label: 'CoreUI', url: '/' },
     ];
 
     setTimeout(() => {
@@ -37,7 +39,7 @@ export class BreadcrumbsComponent implements OnInit {
         { label: 'CoreUI', url: '/' },
         { label: 'Data', url: '/dashboard/' },
         { label: 'Library', url: '/' },
-        { label: 'Home', url: '/', attributes: { title: 'Home' } }
+        { label: 'Home', url: '/', attributes: { title: 'Home' } },
       ];
     }, 5000);
   }

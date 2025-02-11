@@ -1,24 +1,64 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { DocsExampleComponent } from '@docs-components/public-api';
-import { RowComponent, ColComponent, TextColorDirective, CardComponent, CardHeaderComponent, CardBodyComponent, FormDirective, FormLabelDirective, FormControlDirective, FormFeedbackComponent, InputGroupComponent, InputGroupTextDirective, FormSelectDirective, FormCheckComponent, FormCheckInputDirective, FormCheckLabelDirective, ButtonDirective, ListGroupDirective, ListGroupItemDirective } from '@coreui/angular';
+import {
+  RowComponent,
+  ColComponent,
+  TextColorDirective,
+  CardComponent,
+  CardHeaderComponent,
+  CardBodyComponent,
+  FormDirective,
+  FormLabelDirective,
+  FormControlDirective,
+  FormFeedbackComponent,
+  InputGroupComponent,
+  InputGroupTextDirective,
+  FormSelectDirective,
+  FormCheckComponent,
+  FormCheckInputDirective,
+  FormCheckLabelDirective,
+  ButtonDirective,
+  ListGroupDirective,
+  ListGroupItemDirective,
+} from '@coreui/angular';
 
 @Component({
-    selector: 'app-validation',
-    templateUrl: './validation.component.html',
-    styleUrls: ['./validation.component.scss'],
-    standalone: true,
-    imports: [RowComponent, ColComponent, TextColorDirective, CardComponent, CardHeaderComponent, CardBodyComponent, DocsExampleComponent, ReactiveFormsModule, FormsModule, FormDirective, FormLabelDirective, FormControlDirective, FormFeedbackComponent, InputGroupComponent, InputGroupTextDirective, FormSelectDirective, FormCheckComponent, FormCheckInputDirective, FormCheckLabelDirective, ButtonDirective, ListGroupDirective, ListGroupItemDirective]
+  selector: 'app-validation',
+  templateUrl: './validation.component.html',
+  styleUrls: ['./validation.component.scss'],
+  standalone: true,
+  imports: [
+    RowComponent,
+    ColComponent,
+    TextColorDirective,
+    CardComponent,
+    CardHeaderComponent,
+    CardBodyComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    FormDirective,
+    FormLabelDirective,
+    FormControlDirective,
+    FormFeedbackComponent,
+    InputGroupComponent,
+    InputGroupTextDirective,
+    FormSelectDirective,
+    FormCheckComponent,
+    FormCheckInputDirective,
+    FormCheckLabelDirective,
+    ButtonDirective,
+    ListGroupDirective,
+    ListGroupItemDirective,
+  ],
 })
 export class ValidationComponent implements OnInit {
-
   customStylesValidated = false;
   browserDefaultsValidated = false;
   tooltipValidated = false;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   onSubmit1() {
     this.customStylesValidated = true;
@@ -49,6 +89,4 @@ export class ValidationComponent implements OnInit {
     this.tooltipValidated = false;
     console.log('Reset... 3');
   }
-
-
 }
