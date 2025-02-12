@@ -4,29 +4,32 @@ export const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Theme'
+      title: 'Theme',
     },
     children: [
       {
         path: '',
         redirectTo: 'colors',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'colors',
-        loadComponent: () => import('./colors.component').then(m => m.ColorsComponent),
+        loadComponent: () =>
+          import('./reporte-ventas.component').then(
+            (m) => m.ReporteVentasComponent
+          ),
         data: {
-          title: 'Colors'
-        }
+          title: 'Colors',
+        },
       },
       {
         path: 'typography',
-        loadComponent: () => import('./typography.component').then(m => m.TypographyComponent),
+        loadComponent: () =>
+          import('./typography.component').then((m) => m.TypographyComponent),
         data: {
-          title: 'Typography'
-        }
-      }
-    ]
-  }
+          title: 'Typography',
+        },
+      },
+    ],
+  },
 ];
-

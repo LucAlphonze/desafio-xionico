@@ -13,4 +13,5 @@ export const environment = {
 
   MAPTILER_API_KEY: 'ct6jtoaDxAenL9unZq8r',
   URL_VENDEDORES: 'http://localhost:8000/vendedor/',
+  URL_EMPRESAS: 'http://localhost:8000/empresa/',
 };

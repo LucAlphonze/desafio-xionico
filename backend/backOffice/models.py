@@ -33,7 +33,7 @@ class Ventas_Detalle(models.Model):
     producto = models.ForeignKey(Producto, null=True, on_delete=models.SET_NULL)
     unidad_de_medida = models.CharField(max_length=20)
     cantidad = models.IntegerField()
-    venta_cabecera = models.ForeignKey(Ventas_Cabecera, null=True, on_delete=models.SET_NULL)
+    venta_cabecera = models.ForeignKey(Ventas_Cabecera, on_delete=models.CASCADE, related_name='detalles_venta')
 
 
 # Create your models here.
