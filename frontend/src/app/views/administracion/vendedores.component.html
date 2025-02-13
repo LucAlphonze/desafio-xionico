@@ -1,6 +1,5 @@
-<c-card >
+<c-card>
   <c-card-body>
-  
     <table class="table">
       <thead>
         <tr>
@@ -34,18 +33,18 @@
           </td>
           <td>
             <button
-              cButton
-              color="danger"
+              mat-icon-button
               (click)="deleteVendedor(vendedor.id)"
+              [style]="'color:red'"
             >
-              Borrar
+              <mat-icon class="delete">delete</mat-icon>
             </button>
           </td>
           <button mat-icon-button (click)="openMapDialog(vendedor)">
-            <mat-icon class="file_map">map</mat-icon>
+            <mat-icon class="edit">edit</mat-icon>
           </button>
         </tr>
-       
+
         } @empty {
         <c-card>
           <c-card-body>
@@ -54,8 +53,12 @@
         </c-card>
         }
       </tbody>
-      <button mat-icon-button (click)="openMapDialog()" matTooltip="Crear un vendedor" align="end">
-       
+      <button
+        mat-icon-button
+        (click)="openMapDialog()"
+        matTooltip="Crear un vendedor"
+        align="end"
+      >
         <mat-icon class="add_circle">add_circle</mat-icon>
       </button>
     </table>

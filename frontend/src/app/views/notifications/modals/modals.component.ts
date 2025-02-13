@@ -32,8 +32,9 @@ import {
 } from '@angular/forms';
 import { DataService } from '../../../services/data.service';
 import { HttpClientModule } from '@angular/common/http';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-modals',
@@ -49,27 +50,31 @@ import { MatSelectModule } from '@angular/material/select';
     ReactiveFormsModule,
     HttpClientModule,
     MatButtonModule,
-    
+    MatFormFieldModule,
   ],
   providers: [DataService],
 })
 export class ModalsComponent implements OnInit, AfterViewInit {
   userForm: FormGroup;
-  
+
   constructor(
     public dialogRef: MatDialogRef<ModalsComponent>,
     private builder: FormBuilder,
     private dataService: DataService,
     @Inject(MAT_DIALOG_DATA) public data: any
-
   ) {
-    
     this.userForm = this.builder.group({
       name: this.builder.control(data.name, Validators.required),
-      email: this.builder.control(data.email, Validators.required),
+      email: this.builder.control(data.email, [
+        Validators.required,
+        Validators.email,
+      ]),
       empresa: this.builder.control(data.empresa, Validators.required),
       direccion: this.builder.control(data.direccion, Validators.required),
-      telefono: this.builder.control(data.telefono, Validators.required),
+      telefono: this.builder.control(data.telefono, [
+        Validators.required,
+        Validators.minLength(10),
+      ]),
     });
   }
 
@@ -78,12 +83,12 @@ export class ModalsComponent implements OnInit, AfterViewInit {
   markerResults!: string;
   apiVendedor: string = environment.URL_VENDEDORES;
   apiEmpresas: string = environment.URL_EMPRESAS;
-  empresasList = []
+  empresasList = [];
   @ViewChild('map') mapContainer!: ElementRef<HTMLElement>;
 
   ngOnInit(): void {
     config.apiKey = environment.MAPTILER_API_KEY;
-    this.getEmpresas()
+    this.getEmpresas();
   }
 
   ngAfterViewInit() {
@@ -125,8 +130,8 @@ export class ModalsComponent implements OnInit, AfterViewInit {
         .subscribe((res) => {
           console.log('vendedor actualizado: ', this.userForm.value);
           console.log('http res: ', res);
-          this.dataService.getVendedores()
-          location.reload()
+          this.dataService.getVendedores();
+          location.reload();
         });
 
       this.dialogRef.close();
@@ -136,9 +141,8 @@ export class ModalsComponent implements OnInit, AfterViewInit {
         .subscribe((res) => {
           console.log('vendedor creado: ', this.userForm.value);
           console.log('http res: ', res);
-          this.dataService.getVendedores()
-          location.reload()
-
+          this.dataService.getVendedores();
+          location.reload();
         });
       this.dialogRef.close();
     }

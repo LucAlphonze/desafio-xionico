@@ -1,0 +1,1 @@
+import"./chunk-5G567QLT.js";var t=[{path:"",data:{title:"administracion"},children:[{path:"reportes",loadComponent:()=>import("./chunk-6IYGBRFZ.js").then(e=>e.ReporteVentasComponent),data:{title:"Reportes"}},{path:"vendedores",loadComponent:()=>import("./chunk-BB3OW2NO.js").then(e=>e.VendedoresComponent),data:{title:"Vendedores"}}]}];export{t as routes};

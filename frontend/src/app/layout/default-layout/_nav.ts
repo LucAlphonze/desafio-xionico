@@ -33,10 +33,4 @@ export const navItems: INavData[] = [
     url: '/administracion/vendedores',
     iconComponent: { name: 'cil-pencil' },
   },
-
-  {
-    url: '/login',
-    iconComponent: { name: 'cil-account-logout' },
-  },
-
 ];

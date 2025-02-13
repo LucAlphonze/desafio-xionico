@@ -9,36 +9,50 @@
                 >Nombre y Apellido</label
               >
               <input
-                cFormControl
+                matInput
                 id="nameFormControl{{ data.id }}"
                 placeholder="Juan Perez"
                 type="text"
                 formControlName="name"
                 [value]="data.name"
               />
+              @if(userForm.get('name')?.hasError('required')){
+              <mat-error class="error">Campo requerido</mat-error>
+              }
             </div>
             <div class="mb-3">
               <label cLabel for="emailFormControl{{ data.id }}">Email</label>
               <input
-                cFormControl
+                matInput
                 id="emailFormControl{{ data.id }}"
                 placeholder="name@example.com"
                 type="email"
                 formControlName="email"
                 [value]="data.email"
               />
+              @if(userForm.get('email')?.hasError('required')){
+              <mat-error class="error">Campo requerido</mat-error>
+              } @if(userForm.get('email')?.hasError('email')){
+              <mat-error class="error">Ingrese un Email Valido</mat-error>
+              }
             </div>
             <div class="mb-3">
               <label cLabel for="empresaFormControl{{ data.id }}"
                 >Empresa</label
               >
 
-              <select cSelect class="mb-3" id="empresaFormControl{{ data.id }}" formControlName="empresa">
+              <select
+                cSelect
+                class="mb-3"
+                id="empresaFormControl{{ data.id }}"
+                formControlName="empresa"
+              >
                 @for(empresa of empresasList; track empresa.id){
-                  <option  [value]="empresa.id">{{ empresa.name }}</option>
-        
-                  }
-               
+                <option [value]="empresa.id">{{ empresa.name }}</option>
+
+                } @if(userForm.get('empresa')?.hasError('required')){
+                <mat-error class="error">Campo requerido</mat-error>
+                }
               </select>
             </div>
             <div class="mb-3">
@@ -46,26 +60,34 @@
                 >Telefono</label
               >
               <input
-                cFormControl
+                matInput
                 id="telefonoFormControl{{ data.id }}"
                 placeholder="12312312"
                 type="tel"
                 formControlName="telefono"
                 [value]="data.telefono"
               />
+              @if(userForm.get('telefono')?.hasError('minlength')){
+              <mat-error class="error">Minimo 10 caracteres</mat-error>
+              } @if(userForm.get('telefono')?.hasError('required')){
+              <mat-error class="error">Campo requerido</mat-error>
+              }
             </div>
             <div class="mb-3">
               <label cLabel for="direccionFormControl{{ data.id }}"
                 >Direccion</label
               >
               <input
-                cFormControl
+                matInput
                 id="direccionFormControl{{ data.id }}"
                 placeholder="calle falsa 123"
                 type="text"
                 formControlName="direccion"
                 [value]="data.direccion"
               />
+              @if(userForm.get('direccion')?.hasError('required')){
+              <mat-error class="error">Campo requerido</mat-error>
+              }
             </div>
           </form>
         </c-col>
@@ -78,11 +100,21 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   @if(data.id){
-  <button mat-raised-button (click)="editarInfo(data.id)">
+  <button
+    mat-raised-button
+    (click)="editarInfo(data.id)"
+    [disabled]="userForm.invalid"
+  >
     Editar Informacion
   </button>
 
   }@else{
-  <button mat-raised-button (click)="editarInfo()">Crear Nuevo vendedor</button>
+  <button
+    mat-raised-button
+    (click)="editarInfo()"
+    [disabled]="userForm.invalid"
+  >
+    Crear Nuevo vendedor
+  </button>
   }
 </mat-dialog-actions>
