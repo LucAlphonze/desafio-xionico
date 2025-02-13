@@ -4,7 +4,7 @@ import { Subject, catchError } from 'rxjs';
 import { environment } from '../environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root', 
 })
 export class DataService {
   private listVendedoresInfoSource = new Subject();
@@ -39,5 +39,11 @@ export class DataService {
   }
   DeleteVendedor(id: any) {
     return this._http.delete(this.apiVendedores + id);
+  }
+  getVendedores() {
+ this._http.get(this.apiVendedores).subscribe((res: any) => {
+      this.stream_Vendedor_Info(res);
+      console.log("get vendedores: ", res)
+    });
   }
 }

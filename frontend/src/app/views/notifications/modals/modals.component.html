@@ -32,14 +32,14 @@
               <label cLabel for="empresaFormControl{{ data.id }}"
                 >Empresa</label
               >
-              <input
-                cFormControl
-                id="empresaFormControl{{ data.id }}"
-                placeholder="empresa"
-                type="text"
-                formControlName="empresa"
-                [value]="data.empresa"
-              />
+
+              <select cSelect class="mb-3" id="empresaFormControl{{ data.id }}" formControlName="empresa">
+                @for(empresa of empresasList; track empresa.id){
+                  <option  [value]="empresa.id">{{ empresa.name }}</option>
+        
+                  }
+               
+              </select>
             </div>
             <div class="mb-3">
               <label cLabel for="telefonoFormControl{{ data.id }}"

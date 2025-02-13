@@ -20,11 +20,16 @@ productos_data = [
     {"id": 2, "name": "producto 2", "descripcion": "este es un producto de prueba 2"},
     {"id": 3, "name": "producto 3", "descripcion": "este es un producto de prueba 3"},
     {"id": 4, "name": "producto 4", "descripcion": "este es un producto de prueba 4"},
-    {"id": 5, "name": "producto 5", "descripcion": "este es un producto de prueba 5"}
+    {"id": 5, "name": "producto 5", "descripcion": "este es un producto de prueba 5"},
+    {"id": 6, "name": "producto 6", "descripcion": "este es un producto de prueba 6"},
+    {"id": 7, "name": "producto 7", "descripcion": "este es un producto de prueba 7"},
+    {"id": 8, "name": "producto 8", "descripcion": "este es un producto de prueba 8"}, 
+    {"id": 9, "name": "producto 9", "descripcion": "este es un producto de prueba 9"},
+    {"id": 10, "name": "producto 10", "descripcion": "este es un producto de prueba 10"}
 ]
 
 @transaction.atomic
-def generar_datos_prueba(num_registros=100):
+def generar_datos_prueba(num_registros=50000):
     # Crear productos si no existen
     for producto_data in productos_data:
         Producto.objects.get_or_create(id=producto_data["id"], defaults=producto_data)
@@ -36,7 +41,7 @@ def generar_datos_prueba(num_registros=100):
         empresa = Empresa.objects.get(pk=empresa_data["id"])
         vendedor_data = random.choice(vendedorList)
         vendedor = Vendedor.objects.get(pk=vendedor_data["id"])
-        fecha = date(date.today() - timedelta(days=random.randint(0, 365)))
+        fecha = date.today() - timedelta(days=random.randint(0, 365))
         cliente = f"Cliente {random.randint(1, 100)}"
         importe = random.randint(100, 10000)
         lat = round(random.uniform(-90, 90), 6)

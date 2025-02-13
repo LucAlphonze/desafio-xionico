@@ -8,6 +8,8 @@ from .models import User, Empresa, Producto, Vendedor, Ventas_Cabecera, Ventas_D
 from .serializers import ReporteVentasSerializer, UserSerializer, VendedorSerializer, EmpresaSerializer, ProductoSerializer, Ventas_DetalleSerializer, Ventas_CabeceraSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import ReporteVentasFilter
+from rest_framework.pagination import PageNumberPagination
+
 
 # Create your views here.
 class UserDetail (generics.RetrieveUpdateDestroyAPIView):
@@ -42,7 +44,13 @@ class ProductoList (generics.ListCreateAPIView):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
 
+class ReporteVentasPagination(PageNumberPagination):
+    page_size = 200  # Tamaño de página para esta vista
+    page_size_query_param = 'page_size'  # Permite cambiar el tamaño de página con un parámetro en la URL
+    max_page_size = 1000  # Tamaño máximo de página permitido
+
 class ReporteVentasList(generics.ListAPIView):
+    pagination_class = ReporteVentasPagination
     queryset = Ventas_Cabecera.objects.all() # Queryset inicial (puedes optimizarlo)
     serializer_class = ReporteVentasSerializer
     filter_backends = [DjangoFilterBackend]

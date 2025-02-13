@@ -32,6 +32,8 @@ import {
 } from '@angular/forms';
 import { DataService } from '../../../services/data.service';
 import { HttpClientModule } from '@angular/common/http';
+import {MatButtonModule} from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-modals',
@@ -46,17 +48,22 @@ import { HttpClientModule } from '@angular/common/http';
     RowComponent,
     ReactiveFormsModule,
     HttpClientModule,
+    MatButtonModule,
+    
   ],
   providers: [DataService],
 })
 export class ModalsComponent implements OnInit, AfterViewInit {
   userForm: FormGroup;
+  
   constructor(
     public dialogRef: MatDialogRef<ModalsComponent>,
     private builder: FormBuilder,
     private dataService: DataService,
     @Inject(MAT_DIALOG_DATA) public data: any
+
   ) {
+    
     this.userForm = this.builder.group({
       name: this.builder.control(data.name, Validators.required),
       email: this.builder.control(data.email, Validators.required),
@@ -70,10 +77,13 @@ export class ModalsComponent implements OnInit, AfterViewInit {
   marker!: Marker;
   markerResults!: string;
   apiVendedor: string = environment.URL_VENDEDORES;
+  apiEmpresas: string = environment.URL_EMPRESAS;
+  empresasList = []
   @ViewChild('map') mapContainer!: ElementRef<HTMLElement>;
 
   ngOnInit(): void {
     config.apiKey = environment.MAPTILER_API_KEY;
+    this.getEmpresas()
   }
 
   ngAfterViewInit() {
@@ -115,6 +125,8 @@ export class ModalsComponent implements OnInit, AfterViewInit {
         .subscribe((res) => {
           console.log('vendedor actualizado: ', this.userForm.value);
           console.log('http res: ', res);
+          this.dataService.getVendedores()
+          location.reload()
         });
 
       this.dialogRef.close();
@@ -124,8 +136,19 @@ export class ModalsComponent implements OnInit, AfterViewInit {
         .subscribe((res) => {
           console.log('vendedor creado: ', this.userForm.value);
           console.log('http res: ', res);
+          this.dataService.getVendedores()
+          location.reload()
+
         });
       this.dialogRef.close();
     }
+  }
+
+  getEmpresas() {
+    this.dataService.httpGet(this.apiEmpresas).subscribe((res: any) => {
+      // this.dataService.stream_Vendedor_Info(res);
+      this.empresasList = res;
+      console.log('Lista de empresa http: ', res);
+    });
   }
 }

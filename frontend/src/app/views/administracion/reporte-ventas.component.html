@@ -1,0 +1,152 @@
+
+@if(loading){
+  <div class="loading-indicator">
+    <mat-spinner></mat-spinner>  </div>
+}
+<form [formGroup]="reporteForm">
+  <c-row>
+    <c-col md="3">
+      
+      <mat-form-field appearance="fill">
+        <mat-label>Fecha Desde</mat-label>
+        <input
+          matInput
+          formControlName="fecha_desde"
+          [matDatepicker]="pickerDesde"
+                    
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="pickerDesde"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #pickerDesde></mat-datepicker>
+        @if(reporteForm.get('fechaDesde')?.hasError('required')){
+        <mat-error>Campo requerido</mat-error>
+
+        }
+      </mat-form-field>
+    </c-col>
+    <c-col md="3">
+      <mat-form-field appearance="fill">
+        <mat-label>Fecha Hasta</mat-label>
+        <input
+          matInput
+          formControlName="fecha_hasta"
+          [matDatepicker]="pickerHasta"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="pickerHasta"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #pickerHasta></mat-datepicker>
+        @if(reporteForm.get('fechaHasta')?.hasError('required')){
+        <mat-error>Campo requerido</mat-error>
+        }
+      </mat-form-field>
+    </c-col>
+    <c-col md="3">
+      <mat-form-field appearance="fill">
+        <mat-label>Empresa</mat-label>
+        <mat-select formControlName="empresa" multiple>
+          @for(empresa of empresasList; track empresa.id){
+          <mat-option [value]="empresa.id">
+            {{ empresa.name }}
+          </mat-option>
+          }
+        </mat-select>
+        @if(reporteForm.get('empresa')?.hasError('required')){
+        <mat-error>Campo requerido</mat-error>
+        }
+      </mat-form-field>
+    </c-col>
+    <c-col md="3">
+      <mat-form-field appearance="fill">
+        <mat-label>Registros máximos por página</mat-label>
+        <input matInput type="number" formControlName="page_size" />
+        @if(reporteForm.get('page_size')?.hasError('required')){
+        <mat-error>Campo requerido</mat-error>
+        } @if(reporteForm.get('page_size')?.hasError('min')){
+        <mat-error>Mínimo 10</mat-error>
+    
+        } @if(reporteForm.get('page_size')?.hasError('max')){
+        <mat-error>Máximo 100</mat-error>
+        }
+      </mat-form-field>
+    </c-col>
+    <c-col md="3">
+      <button cButton color="primary"  (click)="aplicarFiltros()" class="md-4"> Generar Reporte</button>
+    </c-col>
+    <c-col md="3">
+      <button cButton color="primary" [disabled]="!renderedData"  (click)="downloadCSV()" class="md-4">  Descargar Excel</button>
+    </c-col>
+  
+ 
+  </c-row>
+</form>
+
+<div>
+  @if(dataSource?.data.length > 0){
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="fecha">
+        <th mat-header-cell *matHeaderCellDef="let c"> Fecha </th>
+        <td mat-cell *matCellDef="let element"> {{ element.fecha }} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="empresa">
+        <th mat-header-cell *matHeaderCellDef="let c"> Empresa </th>
+        <td mat-cell *matCellDef="let element"> {{ element.empresa }} </td>  </ng-container>
+    
+      <ng-container matColumnDef="vendedor">
+        <th mat-header-cell *matHeaderCellDef="let c"> Vendedor </th>
+        <td mat-cell *matCellDef="let element"> {{ element.vendedor }} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="cliente">
+        <th mat-header-cell *matHeaderCellDef="let c"> Cliente </th>
+        <td mat-cell *matCellDef="let element"> {{ element.cliente }} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="producto">
+        <th mat-header-cell *matHeaderCellDef="let c"> Producto </th>
+        <td mat-cell *matCellDef="let element">
+          @for( detalle of element.ventas_detalle; track $index){
+            <div>
+              {{ detalle.producto }}
+            </div>
+          }
+        </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="cantidad">
+        <th mat-header-cell *matHeaderCellDef="let c"> Cantidad </th>
+        <td mat-cell *matCellDef="let element">
+          @for(detalle of element.ventas_detalle; track $index){
+            <div>
+              {{ detalle.cantidad }}
+            </div>
+          }
+        </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="unidad_de_medida">
+        <th mat-header-cell *matHeaderCellDef="let c"> Unidad de Medida </th>
+        <td mat-cell *matCellDef="let element">
+          @for( detalle of element.ventas_detalle; track $index){
+            <div>
+              {{ detalle.unidad_de_medida }}
+            </div>
+          }
+        </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> </table>
+  <mat-paginator
+    [pageSize]="page_size"
+    [pageSizeOptions]="[10, 25, 50, 100]"
+    showFirstLastButtons
+  ></mat-paginator>
+  }@else{
+
+    <h2>No hay Registros</h2>
+  }
+</div>
